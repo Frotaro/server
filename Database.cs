@@ -54,5 +54,31 @@ namespace Server
 
             return data;
         }
+
+        public string GetNextID(string pTable)
+        {
+            this.connection.Open();
+
+            string field = "";
+            switch (pTable)
+            {
+                case "client":
+                    field = "userId";
+                    break;
+            }
+            
+            MySqlCommand cmd = new MySqlCommand("SELECT * FROM " + pTable + " ORDER BY " + field + " DESC LIMIT 1", this.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+                
+            string newId = "";
+            while (reader.Read())
+                newId = reader.GetString(0);
+
+            newId = (int.Parse(newId) + 1).ToString();
+            
+            this.connection.Close();
+
+            return newId;
+        }
     }
 }

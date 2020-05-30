@@ -10,6 +10,10 @@ namespace Server
     {
         static void Main(string[] args)
         {
+            Console.SetWindowSize(55, 35);
+            Database db = new Database();
+            GameServer gameServer = new GameServer(db);
+            gameServer.Start();
         }
     }
 }
